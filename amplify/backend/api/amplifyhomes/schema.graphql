@@ -1,0 +1,35 @@
+type Type @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  description: String
+  Task: Task @hasOne
+}
+
+type Project @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  cdate: AWSDate
+  ctime: AWSTime
+  name: String
+  description: String
+  Tasks: [Task] @hasMany(indexName: "byProject", fields: ["id"])
+}
+
+type Task @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  cdate: AWSDate
+  ctime: AWSTime
+  summary: String
+  description: String
+  project_id: ID
+  type_id: ID
+  Project: Project @belongsTo
+  projectID: ID! @index(name: "byProject")
+}
+
+type Home @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  address: String
+  image_url: String
+  price: Float
+}
+ 
